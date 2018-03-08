@@ -1,0 +1,40 @@
+server:
+  port: ${server_port:8765}
+  
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka_url:http://discovery-service:8761/eureka/}
+
+zuul:
+  prefix: /api
+  routes:
+    account:
+      path: /account/**
+      url: http://account-service:2222
+    #customer: 
+      #path: /customer/**
+      #serviceId: customer-service          
+
+ribbon:
+  eureka:
+    enabled: true
+
+spring:
+  application:
+    name: gateway-server
+  sleuth:
+    enabled: true
+    sampler:
+      percentage: 1
+  zipkin:
+    baseUrl: http://192.168.99.100:9411
+  
+management:
+  security:
+    enabled: false
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web.servlet.DispatcherServlet: DEBUG

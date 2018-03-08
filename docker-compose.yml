@@ -1,0 +1,25 @@
+version: '3'
+services:
+  discovery-service:
+    image: discovery-service
+    ports:
+     - "8761:8761"
+  account-service:
+    image: account-service
+    depends_on:
+     - discovery-service
+    #deploy:
+      #mode: replicated
+      #replicas: 1
+  gateway-service:
+    image: gateway-service
+    depends_on:
+     - discovery-service
+    ports:
+     - "8765:8765"
+  zipkin-service:
+    image: zipkin-service
+    depends_on:
+     - discovery-service
+    ports:
+     - "9411:9411"
